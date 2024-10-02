@@ -2,15 +2,116 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.lab1.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.shape.Rectangle?>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER" fx:controller="org.example.lab1.ColorController">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <!-- Заголовок -->
+    <Label text="Цветовое преобразование (RGB, CMYK, HSV)" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <Rectangle fx:id="colorDisplay" width="100" height="100"/>
+    <!-- RGB блок -->
+    <VBox spacing="5">
+        <Label text="RGB"/>
+        <GridPane hgap="10" vgap="10">
+            <Label text="R:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="rField" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="0-255"/>
+
+            <Label text="G:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="gField" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="0-255"/>
+
+            <Label text="B:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="bField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="0-255"/>
+        </GridPane>
+    </VBox>
+
+    <!-- CMYK блок -->
+    <VBox spacing="5">
+        <Label text="CMYK"/>
+        <GridPane hgap="10" vgap="10">
+            <Label text="C:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="cField" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="0-100"/>
+
+            <Label text="M:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="mField" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="0-100"/>
+
+            <Label text="Y:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="yField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="0-100"/>
+
+            <Label text="K:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="kField" GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="0-100"/>
+        </GridPane>
+    </VBox>
+
+    <!-- HSV блок -->
+    <VBox spacing="5">
+        <Label text="HSV"/>
+        <GridPane hgap="10" vgap="10">
+            <Label text="H:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="hField" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="0-360"/>
+
+            <Label text="S:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="sField" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="0-100"/>
+
+            <Label text="V:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="vField" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="0-100"/>
+        </GridPane>
+    </VBox>
+
+    <!-- Ползунки для плавного изменения -->
+    <HBox spacing="15">
+        <VBox spacing="5">
+            <Label text="Ползунок R:"/>
+            <Slider fx:id="rSlider" min="0" max="255" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Ползунок G:"/>
+            <Slider fx:id="gSlider" min="0" max="255" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Ползунок B:"/>
+            <Slider fx:id="bSlider" min="0" max="255" />
+        </VBox>
+    </HBox>
+
+    <!-- Ползунки для CMYK -->
+    <HBox spacing="15">
+        <VBox spacing="5">
+            <Label text="Ползунок C:"/>
+            <Slider fx:id="cSlider" min="0" max="100" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Ползунок M:"/>
+            <Slider fx:id="mSlider" min="0" max="100" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Ползунок Y:"/>
+            <Slider fx:id="ySlider" min="0" max="100" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Ползунок K:"/>
+            <Slider fx:id="kSlider" min="0" max="100" />
+        </VBox>
+    </HBox>
+
+    <!-- Ползунки для HSV -->
+    <HBox spacing="15">
+        <VBox spacing="5">
+            <Label text="Ползунок H:"/>
+            <Slider fx:id="hSlider" min="0" max="360" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Ползунок S:"/>
+            <Slider fx:id="sSlider" min="0" max="100" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Ползунок V:"/>
+            <Slider fx:id="vSlider" min="0" max="100" />
+        </VBox>
+    </HBox>
+
 </VBox>
