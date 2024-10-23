@@ -1,33 +1,37 @@
 package org.example.lab1;
 
+import javafx.scene.control.ColorPicker;
+
 public class ColorModel {
 
     private double r, g, b; // RGB
     private double c, m, y, k; // CMYK
     private double h, s, v; // HSV
 
+
     // Геттеры и сеттеры для CMYK
     public double getC() { return c; }
-    public void setC(double c) { this.c = c; cmykToRgb(); }
+    public void setC(double c) { this.c = c; cmykToRgb(); rgbToHsv();}
+
 
     public double getM() { return m; }
-    public void setM(double m) { this.m = m; cmykToRgb(); }
+    public void setM(double m) { this.m = m; cmykToRgb(); rgbToHsv();}
 
     public double getY() { return y; }
-    public void setY(double y) { this.y = y; cmykToRgb(); }
+    public void setY(double y) { this.y = y; cmykToRgb(); rgbToHsv();}
 
     public double getK() { return k; }
-    public void setK(double k) { this.k = k; cmykToRgb(); }
+    public void setK(double k) { this.k = k; cmykToRgb(); rgbToHsv();}
 
     // Геттеры и сеттеры для HSV
     public double getH() { return h; }
-    public void setH(double h) { this.h = h; hsvToRgb(); }
+    public void setH(double h) { this.h = h; hsvToRgb(); rgbToCmyk();}
 
     public double getS() { return s; }
-    public void setS(double s) { this.s = s; hsvToRgb(); }
+    public void setS(double s) { this.s = s; hsvToRgb(); rgbToCmyk();}
 
     public double getV() { return v; }
-    public void setV(double v) { this.v = v; hsvToRgb(); }
+    public void setV(double v) { this.v = v; hsvToRgb(); rgbToCmyk();}
 
     // Геттеры и сеттеры для RGB
     public double getR() { return r; }
@@ -55,13 +59,14 @@ public class ColorModel {
         double bPercent = b / 255.0;
 
         double kLocal = 1 - Math.max(rPercent, Math.max(gPercent, bPercent));
-        this.k = kLocal;
+        this.k = kLocal * 100;
 
         if (kLocal < 1) {
-            this.c = (1 - rPercent - kLocal) / (1 - kLocal);
-            this.m = (1 - gPercent - kLocal) / (1 - kLocal);
-            this.y = (1 - bPercent - kLocal) / (1 - kLocal);
-        } else {
+            this.c = (1 - rPercent - kLocal) / (1 - kLocal) * 100;
+            this.m = (1 - gPercent - kLocal) / (1 - kLocal) * 100;
+            this.y = (1 - bPercent - kLocal) / (1 - kLocal) * 100;
+        }
+        else {
             this.c = 0;
             this.m = 0;
             this.y = 0;
@@ -96,15 +101,13 @@ public class ColorModel {
     // Метод для пересчета CMYK -> RGB
 
     public void cmykToRgb() {
-        double rPercent = (1 - c) * (1 - k);
-        double gPercent = (1 - m) * (1 - k);
-        double bPercent = (1 - y) * (1 - k);
+        double rPercent = (1 - c/100) * (1 - k/100);
+        double gPercent = (1 - m/100) * (1 - k/100);
+        double bPercent = (1 - y/100) * (1 - k/100);
 
         this.r = rPercent * 255;
         this.g = gPercent * 255;
         this.b = bPercent * 255;
-
-        rgbToHsv(); // Обновляем HSV
     }
     public void hsvToRgb() {
         double sNorm = s / 100.0;
@@ -140,7 +143,6 @@ public class ColorModel {
         this.g = (gPrime + m) * 255;
         this.b = (bPrime + m) * 255;
 
-        rgbToCmyk(); // Обновляем CMYK
     }
 
     // Метод для преобразования CMYK -> HSV
