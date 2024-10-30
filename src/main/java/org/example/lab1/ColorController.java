@@ -20,32 +20,31 @@ public class ColorController {
     public ColorPicker colorPicker;
 
     @FXML
-    private TextField rField, gField, bField; // RGB поля
+    private TextField rField, gField, bField;
 
     @FXML
     public Slider hSlider, sSlider, vSlider;
 
     @FXML
-    private Slider rSlider, gSlider, bSlider; // RGB ползунки
+    private Slider rSlider, gSlider, bSlider;
 
     @FXML
     private Slider cSlider, mSlider, ySlider, kSlider;
 
     @FXML
-    private Rectangle colorDisplay; // Объект, который будет изменять цвет
+    private Rectangle colorDisplay;
 
-    private ColorModel colorModel; // Модель цвета
+    private ColorModel colorModel;
 
     @FXML
     public void initialize() {
-        colorModel = new ColorModel(255, 0, 0); // Инициализируем красным цветом
+        colorModel = new ColorModel(255, 0, 0);
 
-        // Связываем ползунки с изменениями
         setupSliderListeners();
         setupTextFieldListeners();
 
-        updateColorDisplay(); // Обновляем начальный цвет
-        updateSlidersAndFills(); // Убедимся, что все элементы интерфейса отображают правильные значения
+        updateColorDisplay();
+        updateSlidersAndFills();
     }
 
     private void setupSliderListeners() {
@@ -173,7 +172,7 @@ public class ColorController {
         cField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isUpdating) return;
             isUpdating = true;
-            handleTextFieldInput(cField, cSlider, 100); // 100 для CMYK
+            handleTextFieldInput(cField, cSlider, 100);
             colorModel.setC(Double.parseDouble(cField.getText()));
             updateFromCMYK();
             isUpdating = false;
@@ -182,7 +181,7 @@ public class ColorController {
         mField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isUpdating) return;
             isUpdating = true;
-            handleTextFieldInput(mField, mSlider, 100); // 100 для CMYK
+            handleTextFieldInput(mField, mSlider, 100);
             colorModel.setM(Double.parseDouble(mField.getText()));
             updateFromCMYK();
             isUpdating = false;
@@ -191,7 +190,7 @@ public class ColorController {
         yField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isUpdating) return;
             isUpdating = true;
-            handleTextFieldInput(yField, ySlider, 100); // 100 для CMYK
+            handleTextFieldInput(yField, ySlider, 100);
             colorModel.setY(Double.parseDouble(yField.getText()));
             updateFromCMYK();
             isUpdating = false;
@@ -200,7 +199,7 @@ public class ColorController {
         kField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isUpdating) return;
             isUpdating = true;
-            handleTextFieldInput(kField, kSlider, 100); // 100 для CMYK
+            handleTextFieldInput(kField, kSlider, 100);
             colorModel.setK(Double.parseDouble(kField.getText()));
             updateFromCMYK();
             isUpdating = false;
@@ -209,7 +208,7 @@ public class ColorController {
         hField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isUpdating) return;
             isUpdating = true;
-            handleTextFieldInput(hField, hSlider, 360); // 360 для Hue
+            handleTextFieldInput(hField, hSlider, 360);
             colorModel.setH(Double.parseDouble(hField.getText()));
             updateFromHSV();
             isUpdating = false;
@@ -218,7 +217,7 @@ public class ColorController {
         sField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isUpdating) return;
             isUpdating = true;
-            handleTextFieldInput(sField, sSlider, 100); // 100 для Saturation
+            handleTextFieldInput(sField, sSlider, 100);
             colorModel.setS(Double.parseDouble(sField.getText()));
             updateFromHSV();
             isUpdating = false;
@@ -227,44 +226,30 @@ public class ColorController {
         vField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isUpdating) return;
             isUpdating = true;
-            handleTextFieldInput(vField, vSlider, 100); // 100 для Value
+            handleTextFieldInput(vField, vSlider, 100);
             colorModel.setV(Double.parseDouble(vField.getText()));
             updateFromHSV();
             isUpdating = false;
         });
     }
-
-    // Обновляем значения из RGB
     private void updateFromRGB() {
-        colorModel.rgbToCmyk(); // Конвертируем RGB в CMYK
-        colorModel.rgbToHsv(); // Конвертируем RGB в HSV
+        colorModel.rgbToCmyk();
+        colorModel.rgbToHsv();
+
         updateColorDisplay();
         updateSlidersAndFills();
     }
-
-    // Обновляем значения из CMYK
     private void updateFromCMYK() {
-        colorModel.cmykToRgb(); // Конвертируем CMYK в RGB
-        colorModel.cmykToHsv(); // Конвертируем CMYK в HSV
-        /*System.out.println(colorModel.getC());
-        System.out.println( colorModel.getM());
-        System.out.println( colorModel.getY());
-        System.out.println( colorModel.getK());
-        System.out.println(colorModel.getR());
-        System.out.println( colorModel.getG());
-        System.out.println( colorModel.getB());
-        System.out.println( colorModel.getH());
-        System.out.println(colorModel.getS());
-        System.out.println( colorModel.getV());*/
+        colorModel.cmykToRgb();
+        colorModel.cmykToHsv();
 
         updateColorDisplay();
         updateSlidersAndFills();
     }
 
-    // Обновляем значения из HSV
     private void updateFromHSV() {
-        colorModel.hsvToRgb(); // Конвертируем HSV в RGB
-        colorModel.hsvToCmyk(); // Конвертируем HSV в CMYK
+        colorModel.hsvToRgb();
+        colorModel.hsvToCmyk();
         updateColorDisplay();
         updateSlidersAndFills();
     }
@@ -277,7 +262,6 @@ public class ColorController {
         ));
     }
 
-    // Метод для проверки ввода в текстовом поле
     private void handleTextFieldInput(TextField textField, Slider slider, int maxValue) {
         try {
             int value = Integer.parseInt(textField.getText());
@@ -289,14 +273,12 @@ public class ColorController {
             slider.setValue(value);
             textField.setText(String.valueOf(value));
         } catch (NumberFormatException e) {
-            // Обработка некорректного ввода, сброс значения к 0
             textField.setText("0");
             slider.setValue(0);
         }
     }
 
     private void updateSlidersAndFills() {
-        // Обновляем значения для RGB
         rSlider.setValue(colorModel.getR());
         gSlider.setValue(colorModel.getG());
         bSlider.setValue(colorModel.getB());
@@ -305,7 +287,6 @@ public class ColorController {
         gField.setText(String.format("%.0f", colorModel.getG()));
         bField.setText(String.format("%.0f", colorModel.getB()));
 
-        // Обновляем значения для CMYK
         cSlider.setValue(colorModel.getC());
         mSlider.setValue(colorModel.getM());
         ySlider.setValue(colorModel.getY());
@@ -316,7 +297,6 @@ public class ColorController {
         yField.setText(String.format("%.0f", colorModel.getY()));
         kField.setText(String.format("%.0f", colorModel.getK()));
 
-        // Обновляем значения для HSV
         hSlider.setValue(colorModel.getH());
         sSlider.setValue(colorModel.getS());
         vSlider.setValue(colorModel.getV());

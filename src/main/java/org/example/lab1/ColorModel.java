@@ -147,18 +147,14 @@ public class ColorModel {
 
     // Метод для преобразования CMYK -> HSV
     public void cmykToHsv() {
-
-        // Сначала переводим CMYK в RGB
         cmykToRgb();
-        // Затем переводим RGB в HSV
+
         rgbToHsv();
     }
 
     // Метод для преобразования HSV -> CMYK
     public void hsvToCmyk() {
-        // Сначала переводим HSV в RGB
         hsvToRgb();
-        // Затем переводим RGB в CMYK
         rgbToCmyk();
     }
 
