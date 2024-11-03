@@ -1,0 +1,6 @@
+org\example\lab1\HelloApplication.class
+module-info.class
+org\example\lab1\HelloController.class
+org\example\lab1\ColorModel.class
+org\example\lab1\Main.class
+org\example\lab1\ColorController.class
