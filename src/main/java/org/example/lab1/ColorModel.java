@@ -1,15 +1,14 @@
 package org.example.lab1;
 
-import javafx.scene.control.ColorPicker;
 
 public class ColorModel {
 
-    private double r, g, b; // RGB
-    private double c, m, y, k; // CMYK
-    private double h, s, v; // HSV
+    private double r, g, b;
+    private double c, m, y, k;
+    private double h, s, v;
 
 
-    // Геттеры и сеттеры для CMYK
+
     public double getC() { return c; }
     public void setC(double c) { this.c = c; cmykToRgb(); rgbToHsv();}
 
@@ -23,7 +22,6 @@ public class ColorModel {
     public double getK() { return k; }
     public void setK(double k) { this.k = k; cmykToRgb(); rgbToHsv();}
 
-    // Геттеры и сеттеры для HSV
     public double getH() { return h; }
     public void setH(double h) { this.h = h; hsvToRgb(); rgbToCmyk();}
 
@@ -43,7 +41,6 @@ public class ColorModel {
     public double getB() { return b; }
     public void setB(double b) { this.b = b; rgbToCmyk(); rgbToHsv(); }
 
-    // Конструктор для инициализации значений
     public ColorModel(double r, double g, double b) {
         this.r = r;
         this.g = g;
@@ -52,7 +49,6 @@ public class ColorModel {
         rgbToHsv();
     }
 
-    // Метод для пересчета RGB -> CMYK
     public void rgbToCmyk() {
         double rPercent = r / 255.0;
         double gPercent = g / 255.0;
@@ -73,7 +69,6 @@ public class ColorModel {
         }
     }
 
-    // Метод для пересчета RGB -> HSV
     public void rgbToHsv() {
         double rNorm = r / 255.0;
         double gNorm = g / 255.0;
@@ -97,8 +92,6 @@ public class ColorModel {
         v = max * 100;
     }
 
-
-    // Метод для пересчета CMYK -> RGB
 
     public void cmykToRgb() {
         double rPercent = (1 - c/100) * (1 - k/100);
@@ -145,14 +138,12 @@ public class ColorModel {
 
     }
 
-    // Метод для преобразования CMYK -> HSV
     public void cmykToHsv() {
         cmykToRgb();
 
         rgbToHsv();
     }
 
-    // Метод для преобразования HSV -> CMYK
     public void hsvToCmyk() {
         hsvToRgb();
         rgbToCmyk();
