@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.lang.String?>
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab3.RasterAlgorithmsController">
+  <VBox alignment="CENTER" prefHeight="50" spacing="10">
+    <HBox spacing="10">
+      <Label text="Начало (X, Y):" />
+      <TextField fx:id="startXField" promptText="X1" prefWidth="50" />
+      <TextField fx:id="startYField" promptText="Y1" prefWidth="50" />
+      <Label text="Конец (X, Y):" />
+      <TextField fx:id="endXField" promptText="X2" prefWidth="50" />
+      <TextField fx:id="endYField" promptText="Y2" prefWidth="50" />
+    </HBox>
+    <ComboBox fx:id="algorithmSelector" prefWidth="200" promptText="Выберите алгоритм" HBox.hgrow="ALWAYS">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Пошаговый алгоритм" />
+          <String fx:value="Алгоритм ЦДА" />
+          <String fx:value="Алгоритм Брезенхема (отрезок)" />
+          <String fx:value="Алгоритм Брезенхема (окружность)" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <Button fx:id="drawButton" text="Нарисовать" />
+    <Label fx:id="executionTimeLabel" text="Execution Time: 0.000000 seconds"/>
+  </VBox>
+  <Canvas fx:id="canvas" height="400" width="600" />
+</VBox>
