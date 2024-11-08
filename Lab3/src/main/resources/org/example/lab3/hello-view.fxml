@@ -4,8 +4,8 @@
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import java.lang.String?>
+
 <VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab3.RasterAlgorithmsController">
   <VBox alignment="CENTER" prefHeight="50" spacing="10">
     <HBox spacing="10">
@@ -27,7 +27,9 @@
       </items>
     </ComboBox>
     <Button fx:id="drawButton" text="Нарисовать" />
-    <Label fx:id="executionTimeLabel" text="Execution Time: 0.000000 seconds"/>
+    <Label fx:id="executionTimeLabel" text="Execution Time: 0.000000 mcs" />
+    <Slider fx:id="zoomSlider" min="1" max="60" value="30" blockIncrement="0.1" majorTickUnit="0.5" showTickLabels="true" showTickMarks="true" />
+
+    <Canvas fx:id="canvas" height="400" width="600" />
   </VBox>
-  <Canvas fx:id="canvas" height="400" width="600" />
 </VBox>

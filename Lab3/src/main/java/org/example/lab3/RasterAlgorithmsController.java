@@ -3,11 +3,9 @@ package org.example.lab3;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class RasterAlgorithmsController {
 
@@ -27,13 +25,22 @@ public class RasterAlgorithmsController {
     private TextField endYField;
     @FXML
     private Label executionTimeLabel;
+    @FXML
+    private Slider zoomSlider;
 
-    private static final int CELL_SIZE = 20;
+    private int countCellsWidth;
+    private int countCellsHeight;
+    private int CELL_SIZE = 20;
 
     @FXML
     public void initialize() {
         drawGrid();
         algorithmSelector.getSelectionModel().select("Пошаговый алгоритм");
+
+        zoomSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            CELL_SIZE = newValue.intValue();
+            drawButton.fire();
+        });
 
         startXField.setText("0");
         startYField.setText("0");
@@ -68,16 +75,17 @@ public class RasterAlgorithmsController {
                     bresenhamLine(gc, x1, y1, x2, y2);
                     break;
                 case "Алгоритм Брезенхема (окружность)":
-                    int radius = (int) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                    int radius = (int) Math.sqrt(Math.pow(x2 - x1, 2));
                     bresenhamCircle(gc, x1 - 1, y1 - 1, radius);
                     break;
             }
 
             long endTime = System.nanoTime();
-            double executionTime = (endTime - startTime);
-            executionTimeLabel.setText("Execution Time: " + executionTime);
+            double executionTime = (endTime - startTime) / 1000;
+            executionTimeLabel.setText("Execution Time: " + executionTime +"mcs");
         });
     }
+
 
     private void setNumericOnlyWithDefaultZero(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -97,27 +105,56 @@ public class RasterAlgorithmsController {
     }
 
     private double transformX(int x) {
-        return (canvas.getWidth() / 2) + x * CELL_SIZE;
+        return CELL_SIZE * countCellsWidth / 2 + x * CELL_SIZE;
     }
 
     private double transformY(int y) {
-        return (canvas.getHeight() / 2) - y * CELL_SIZE;
+        return (CELL_SIZE * countCellsHeight / 2) - y * CELL_SIZE;
     }
 
     private void drawGrid() {
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(Color.LIGHTGRAY);
 
+        countCellsWidth = 0;
         for (int x = 0; x < canvas.getWidth(); x += CELL_SIZE) {
             gc.strokeLine(x, 0, x, canvas.getHeight());
+            countCellsWidth++;
         }
+        countCellsHeight = 0;
         for (int y = 0; y < canvas.getHeight(); y += CELL_SIZE) {
             gc.strokeLine(0, y, canvas.getWidth(), y);
+            countCellsHeight++;
         }
 
+        gc.setFill(Color.BLACK);
+        gc.fillText("X", canvas.getWidth() - 15, canvas.getHeight() / 2);
+        gc.fillText("Y", canvas.getWidth() / 2 - 15, 15);
+
         gc.setStroke(Color.BLACK);
-        gc.strokeLine(canvas.getWidth() / 2, 0, canvas.getWidth() / 2, canvas.getHeight());
-        gc.strokeLine(0, (canvas.getHeight() / 2) + CELL_SIZE, canvas.getWidth(), (canvas.getHeight() / 2) + CELL_SIZE);
+        gc.strokeLine(CELL_SIZE * countCellsWidth / 2, 0, CELL_SIZE * countCellsWidth / 2, canvas.getHeight());
+        gc.strokeLine(0, countCellsHeight * CELL_SIZE / 2 + CELL_SIZE, canvas.getWidth(), countCellsHeight * CELL_SIZE / 2 + CELL_SIZE);
+
+        gc.setFill(Color.BLACK);
+        gc.setFont(new Font(10 * CELL_SIZE / 20));
+        int halfWidth = (int) canvas.getWidth() / 2;
+        int halfHeight = (int) canvas.getHeight() / 2;
+
+        for (int x = -halfWidth / CELL_SIZE; x <= halfWidth / CELL_SIZE; x++) {
+            if (x != 0) {
+                double xPos = transformX(x);
+                gc.fillText(String.valueOf(x), xPos, halfHeight + 15);
+            }
+        }
+
+        for (int y = -halfHeight / CELL_SIZE; y <= halfHeight / CELL_SIZE; y++) {
+            if (y != 0) {
+                double yPos = transformY(y - 1);
+                gc.fillText(String.valueOf(y), halfWidth + 5, yPos);
+            }
+        }
     }
 
     private void stepByStepLine(GraphicsContext gc, int x1, int y1, int x2, int y2) {
@@ -131,7 +168,7 @@ public class RasterAlgorithmsController {
         double y = y1;
         gc.setFill(Color.RED);
         for (int i = 0; i <= steps; i++) {
-            gc.fillRect(transformX((int) Math.round(x)), transformY((int) Math.round(y)), CELL_SIZE, CELL_SIZE);
+            gc.fillRect(transformX((int) Math.floor(x)), transformY((int) Math.floor(y)), CELL_SIZE, CELL_SIZE);
             x += xIncrement;
             y += yIncrement;
         }
@@ -148,7 +185,7 @@ public class RasterAlgorithmsController {
         double y = y1;
         gc.setFill(Color.GREEN);
         for (int i = 0; i <= steps; i++) {
-            gc.fillRect(transformX((int) Math.round(x)), transformY((int) Math.round(y)), CELL_SIZE, CELL_SIZE);
+            gc.fillRect(transformX((int) Math.floor(x)), transformY((int) Math.floor(y)), CELL_SIZE, CELL_SIZE);
             x += xIncrement;
             y += yIncrement;
         }
